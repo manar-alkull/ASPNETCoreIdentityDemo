@@ -1,3 +1,7 @@
+using ASPNETCoreIdentityDemo.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,7 +22,25 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+
+
+var connectionString = builder.Configuration.GetConnectionString("SQLServerIdentityConnection ") ?? throw new InvalidOperationException("Connection string 'SQLServerIdentityConnection' not found.");
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+//Configuring Authentication Middleware to the Request Pipeline
+app.UseAuthentication();
 app.UseAuthorization();
+
+//app.MapControllerRoute(
+//      name: "default",
+//      pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+
 
 app.MapRazorPages();
 
