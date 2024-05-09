@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace ASPNETCoreIdentityDemo
+namespace ASPNETCoreIdentityDemo.Models
 {
     public class RegisterViewModel
     {
